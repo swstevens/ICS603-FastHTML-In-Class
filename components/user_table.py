@@ -1,13 +1,30 @@
 from fasthtml.common import *
+from components.user_row import user_row
 
-def user_table():
+def user_table(users):
     """
     Component: User Table
-    Displays list of all users in a table, loads via HTMX
+    Displays list of all users in a table
+    Takes a list of user dictionaries and renders each using the user_row component
     """
+    if not users:
+        return Div(
+            P("No users found"),
+            id="userTable"
+        )
+    
     return Div(
-        id="userTable",
-        hx_get="/api/users",
-        hx_trigger="load",
-        hx_swap="innerHTML"
+        Table(
+            Thead(
+                Tr(
+                    Th("First Name"),
+                    Th("Last Name"),
+                    Th("Action")
+                )
+            ),
+            Tbody(
+                *[user_row(u, idx) for idx, u in enumerate(users)]
+            )
+        ),
+        id="userTable"
     )

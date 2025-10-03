@@ -24,7 +24,7 @@ def get():
     """
     Serves the user list page (Page 2)
     """
-    return user_list_page()
+    return user_list_page(users)
 
 # ============================================
 # API ROUTES
@@ -73,5 +73,14 @@ def get():
             *[Tr(Td(u["first_name"]), Td(u["last_name"])) for u in users]
         )
     )
+
+@rt('/api/users/{idx}')
+def delete(idx: int):
+    """
+    DELETE endpoint to remove a user by index
+    """
+    if 0 <= idx < len(users):
+        users.pop(idx)
+    return ""  # Return empty response, HTMX will swap out the row
 
 serve()
