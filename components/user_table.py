@@ -1,5 +1,5 @@
 from fasthtml.common import *
-from components.user_row import user_row
+from components.user_row_entry import user_row
 
 def user_table(users):
     """
