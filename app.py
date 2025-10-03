@@ -29,13 +29,12 @@ def get():
 # ============================================
 # API ROUTES
 # ============================================
-
 @rt('/api/users')
 def post(first_name: str, last_name: str):
     """
     POST endpoint to add a new user
     Accepts first name and last name, adds to in-memory list
-    Returns success message
+    Returns success message with HX-Trigger header
     """
     user = {
         "first_name": first_name,
@@ -43,7 +42,11 @@ def post(first_name: str, last_name: str):
     }
     users.append(user)
     
-    return P("User added")
+    # Return response with HX-Trigger header
+    return (
+        P("User added"),
+        HtmxResponseHeaders(trigger="userAdded")
+    )
 
 @rt('/api/users/count')
 def get():
